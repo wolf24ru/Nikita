@@ -1,13 +1,9 @@
-x = 1
-y = 1
-z = 2
-n = 3
+student_marks = {'Krishna': [67.0, 68.0, 69.0],
+                 'Arjun': [70.0, 98.0, 63.0],
+                 'Malika': [52.0, 56.0, 60.0]}
 
-x_list = [[i]+[j]+[k] 
-for i in range(0, x+1) 
-for j in range(0, y+1) 
-for k in range(0, z+1) if i+j+k != n]
+query_name = 'Malika'
+sum_all_mark = sum(student_marks.get(query_name))
+sum_len = len(student_marks.get(query_name))
 
-print(x_list)
-# print(y_list)
-# print(z_list)
+print(f'{(sum_all_mark / sum_len):.2f}')
