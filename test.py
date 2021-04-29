@@ -1,4 +1,8 @@
 def DocIsExist(directories):
+    """ DocIsExist(directories)
+    Function for input number of document
+    directories: dictionary of document shelf's """
+
     while True:
         doc_number = input('Ввидте номер документа:\n')
 
@@ -11,6 +15,10 @@ def DocIsExist(directories):
 
 
 def NameFormNumberDoc(documents):
+    """ NameFormNumberDoc(documents)
+    Function requests document's number and return owners name
+    documents: list of documents """
+
     document_number = input('Введите номер документа?')
     return [doc_element['name']
             if doc_element['number'] == document_number else 'Такого номер нет'
@@ -18,6 +26,10 @@ def NameFormNumberDoc(documents):
 
 
 def ShelfFormNumberDoc(directories):
+    """ ShelfFormNumberDoc(directories)
+    Function requests document's number and return shelf's think
+    directories: dictionary of document shelf's """
+
     document_number = input('Введите номер документа?')
     return[shelf_number
            if document_number in doc_number else 'Такого номер нет'
@@ -25,10 +37,19 @@ def ShelfFormNumberDoc(directories):
 
 
 def AllDocumentList(documents):
+    """ AllDocumentList(documents)
+    Function return list of all documents
+    documents: list of documents """
+
     return[list(doc_element.values()) for doc_element in documents]
 
 
 def AddNewDocument(documents_dict, directories_dict):
+    """ AddNewDocument(documents_dict, directories_dict)
+    Function creating new documents and added in list
+    documents_dict: list of documents
+    directories_dict: dictionary of document shelf's """
+
     doc_type = input('Введите тип документа:\n')
     doc_number = input('Ввидте номер документа\n')
     doc_name = input('Введите имя\n')
@@ -47,6 +68,11 @@ def AddNewDocument(documents_dict, directories_dict):
 
 
 def DeleteDocument(documents, directories):
+    """ DeleteDocument(documents, directories)
+    Function deleted document from all lists
+    documents: list of documents
+    directories: dictionary of document shelf's """
+
     document_number = DocIsExist(directories)
 
     for doc_element in documents:
@@ -60,8 +86,12 @@ def DeleteDocument(documents, directories):
             break
 
 
-# проверить работоспасбоность
 def СhangeShelf(directories):
+    """СhangeShelf(directories)
+    Function change place of document in shelfs
+    directories: dictionary of document shelf's
+    """
+
     doc_number = DocIsExist(directories)
 
     while True:
@@ -73,9 +103,28 @@ def СhangeShelf(directories):
         else:
             print('Вы ввели номер не существующей полки, попробуйте снова\n')
 
+    for shelf, value in directories.items():
+        if doc_number in value:
+            directories.get(shelf).remove(doc_number)
+            break
 
-def AddShelf():
-    pass
+    directories.get(doc_shelf).append(doc_number)
+
+
+def AddShelf(directories):
+    """ AddShelf(directories)
+    to adding new shelfs
+    directories: dictionary of document shelf's
+    """
+    while True:
+        new_shelf = input(
+            'Введите номер полки которую необходимо добавить\n')
+        if new_shelf not in [shelf_number
+                             for shelf_number in directories.keys()]:
+            directories.update({new_shelf: []})
+            break
+        else:
+            print('Вы ввели номер существующей полки, попробуйте снова\n')
 
 
 documents = [
@@ -88,13 +137,26 @@ directories = {
     '1': ['2207 876234', '11-2'],
     '2': ['10006'],
     '3': []}
+# ----------------------------------------------------------------------------
+# Task 1
+people = NameFormNumberDoc(documents)
+print(people)
 
+shelf = ShelfFormNumberDoc(directories)
+print(shelf)
 
-# p = NameFormNumberDoc(documents)
-# s = ShelfFormNumberDoc(directories)
-# l = AllDocumentList(documents)
-# AddNewDocument(documents, directories)
+forma_doc = AllDocumentList(documents)
+print(forma_doc)
+
+AddNewDocument(documents, directories)
+print(documents, '\n', directories)
+# ----------------------------------------------------------------------------
+# Task 2
 DeleteDocument(documents, directories)
-print(documents, '\n')
-print(directories)
-# СhangeShelf(directories)
+print(documents, '\n', directories)
+
+AddShelf(directories)
+print(documents, '\n', directories)
+
+СhangeShelf(directories)
+print(documents, '\n', directories)
