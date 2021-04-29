@@ -1,19 +1,81 @@
-# Поменять названия переменным, функциям
+def DocIsExist(directories):
+    while True:
+        doc_number = input('Ввидте номер документа:\n')
 
-def People(document_number, documents):
-    return [x['name']
-            if x['number'] == document_number else 'Такого номер нет'
-            for x in documents][0]
-
-
-def Shelf(document_number, directories):
-    return[x
-           if document_number in i else 'Такого номер нет'
-           for x, i in directories.items()][0]
+        if [doc_list
+            for doc_list in directories.values()
+                if doc_number in doc_list]:
+            return doc_number
+        else:
+            print('Вы ввели не существующий документ')
 
 
-def DocumentList(documents):
-    return[list(x.values()) for x in documents]
+def NameFormNumberDoc(documents):
+    document_number = input('Введите номер документа?')
+    return [doc_element['name']
+            if doc_element['number'] == document_number else 'Такого номер нет'
+            for doc_element in documents][0]
+
+
+def ShelfFormNumberDoc(directories):
+    document_number = input('Введите номер документа?')
+    return[shelf_number
+           if document_number in doc_number else 'Такого номер нет'
+           for shelf_number, doc_number in directories.items()][0]
+
+
+def AllDocumentList(documents):
+    return[list(doc_element.values()) for doc_element in documents]
+
+
+def AddNewDocument(documents_dict, directories_dict):
+    doc_type = input('Введите тип документа:\n')
+    doc_number = input('Ввидте номер документа\n')
+    doc_name = input('Введите имя\n')
+    while True:
+        doc_shel = input('Введите номер полки\n')
+        if doc_shel in [shelf_number
+                        for shelf_number in directories_dict.keys()]:
+            break
+        else:
+            print('Вы ввели номер не существующей полки, попробуйте снова\n')
+
+    documents_dict.append({"type": doc_type,
+                           "number": doc_number,
+                           "name": doc_name})
+    directories_dict.get(doc_shel).append(doc_number)
+
+
+def DeleteDocument(documents, directories):
+    document_number = DocIsExist(directories)
+
+    for doc_element in documents:
+        if document_number == doc_element.get('number'):
+            documents.pop(documents.index(doc_element))
+            break
+
+    for shelf, value in directories.items():
+        if document_number in value:
+            directories.get(shelf).remove(document_number)
+            break
+
+
+# проверить работоспасбоность
+def СhangeShelf(directories):
+    doc_number = DocIsExist(directories)
+
+    while True:
+        doc_shelf = input(
+            'Введите номер полки на которую необходимо переместить документ\n')
+        if doc_shelf in [shelf_number
+                         for shelf_number in directories.keys()]:
+            break
+        else:
+            print('Вы ввели номер не существующей полки, попробуйте снова\n')
+
+
+def AddShelf():
+    pass
 
 
 documents = [
@@ -28,12 +90,11 @@ directories = {
     '3': []}
 
 
-# n = People(input('введите номер документа?'), documents)
-
-# p = Shelf('2207', directories)
-
-# s = DocumentList(documents)
-
-# add – команда, которая добавит новый документ в каталог и в перечень полок,
-# спросив его номер, тип, имя владельца и номер полки, на котором он будет храниться.
-# Корректно обработайте ситуацию, когда пользователь будет пытаться добавить документ на несуществующую полку.
+# p = NameFormNumberDoc(documents)
+# s = ShelfFormNumberDoc(directories)
+# l = AllDocumentList(documents)
+# AddNewDocument(documents, directories)
+DeleteDocument(documents, directories)
+print(documents, '\n')
+print(directories)
+# СhangeShelf(directories)
