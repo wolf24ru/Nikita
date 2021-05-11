@@ -67,8 +67,8 @@ goose_gray = Goose('Гусь', 'Серый', 7)
 
 сow_1 = Cow('Корова', 'Манька', 760)
 
-sheep_1 = Sheep('Обечка', 'Барашек', 50)
-sheep_2 = Sheep('Обечка', 'Кудрявый', 54)
+sheep_1 = Sheep('Овечка', 'Барашек', 50)
+sheep_2 = Sheep('Овечка', 'Кудрявый', 54)
 
 сhicken_1 = Сhicken('Курца', 'Ко-Ко', 1.5)
 сhicken_2 = Сhicken('Курца', 'Кукареку', 1.9)
@@ -78,9 +78,19 @@ goat_2 = Goat('Коза', 'Копыта', 40)
 
 duck_1 = Duck('Утка', 'Кряква', 4)
 
+#Задача №2
+[p.Feed() for p in Animal.all_animal]
+goose_gray.ColletEggs()
+сow_1.Milking()
+sheep_1.Cut()
+сhicken_1.ColletEggs()
+goat_1.Milking()
+duck_1.ColletEggs()
+
+#Звдание №3 
 weight_all_animals = sum([i.weight for i in Animal.all_animal])
 heaviest_animal = max([i.weight, i.name, i.type_animal]
                       for i in Animal.all_animal)
-
-print(f'Общая ссума всех животных: {weight_all_animals} кг')
-print(    f'Самое тяжолое животное - {heaviest_animal[2]} {heaviest_animal[1]}, его вес {heaviest_animal[0]}')
+print('\n\n\n')
+print(f'Общая ссума всех животных: {weight_all_animals} кг\n')
+print(f'Самое тяжолое животное - {heaviest_animal[2]} {heaviest_animal[1]}, его вес {heaviest_animal[0]}')
