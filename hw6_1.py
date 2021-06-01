@@ -78,7 +78,7 @@ goat_2 = Goat('Коза', 'Копыта', 40)
 
 duck_1 = Duck('Утка', 'Кряква', 4)
 
-#Задача №2
+# Задача №2
 [p.Feed() for p in Animal.all_animal]
 goose_gray.ColletEggs()
 сow_1.Milking()
@@ -87,7 +87,7 @@ sheep_1.Cut()
 goat_1.Milking()
 duck_1.ColletEggs()
 
-#Звдание №3 
+# Звдание №3
 weight_all_animals = sum([i.weight for i in Animal.all_animal])
 heaviest_animal = max([i.weight, i.name, i.type_animal]
                       for i in Animal.all_animal)
