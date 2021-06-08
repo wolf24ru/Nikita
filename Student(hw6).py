@@ -8,13 +8,58 @@ class Student:
         self.grades = {}
 
     def __str__(self):
-        
         return f'''
 Имя: {self.name}
 Фамилия: {self.surname}
-Средняя оценка за домашние задания: {sum([sum(i) for i in self.grades.values()])/ }
+Средняя оценка за домашние задания: {self.average_mark()}
 Курсы в процессе изучения: {', '.join([cours for cours in self.courses_in_progress])}
 Завершенные курсы: {', '.join([finish_cours for finish_cours in self.finished_courses])}'''
+
+    def __lt__(self, other_student):
+        try:
+            return self.average_mark() < other_student.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the students hasn\'t marks')
+            return False
+
+    def __le__(self, other_student):
+        try:
+            return self.average_mark() <= other_student.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the students hasn\'t marks')
+            return False
+
+    def __eq__(self, other_student):
+        try:
+            return self.average_mark() == other_student.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the students hasn\'t marks')
+            return False
+
+    def __ne__(self, other_student):
+        try:
+            return self.average_mark() != other_student.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the students hasn\'t marks')
+            return False
+
+    def __gt__(self, other_student):
+        try:
+            return self.average_mark() > other_student.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the students hasn\'t marks')
+            return False
+
+    def __ge__(self, other_student):
+        try:
+            return self.average_mark() >= other_student.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the students hasn\'t marks')
+            return False
+
+    def average_mark(self):
+        return sum([sum(i) for i in self.grades.values()]) / \
+            sum([len(i) for i in self.grades.values()])
 
     def lector_rate(self, lector, course, grade):
         if isinstance(lector, Lecturer) and course in self.courses_in_progress and course in lector.courses_attached:
@@ -32,14 +77,59 @@ class Mentor:
 
 class Lecturer(Mentor):
     def __init__(self, name, surname):
-        Mentor.__init__(self, name, surname)
+        super().__init__(name, surname)
         self.grade = []
 
     def __str__(self):
         return f'''
 Имя: {self.name}
 Фамилия: {self.surname}
-Средняя оценка за лекции: {sum(self.grade)/len(self.grade)}'''
+Средняя оценка за лекции: {self.average_mark()}'''
+
+    def __lt__(self, other_lecturer):
+        try:
+            return self.average_mark() < other_lecturer.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the lecturers hasn\'t marks')
+            return False
+
+    def __le__(self, other_lecturer):
+        try:
+            return self.average_mark() <= other_lecturer.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the lecturers hasn\'t marks')
+            return False
+
+    def __eq__(self, other_lecturer):
+        try:
+            return self.average_mark() == other_lecturer.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the lecturers hasn\'t marks')
+            return False
+
+    def __ne__(self, other_lecturer):
+        try:
+            return self.average_mark() != other_lecturer.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the lecturers hasn\'t marks')
+            return False
+
+    def __gt__(self, other_lecturer):
+        try:
+            return self.average_mark() > other_lecturer.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the lecturers hasn\'t marks')
+            return False
+
+    def __ge__(self, other_lecturer):
+        try:
+            return self.average_mark() >= other_lecturer.average_mark()
+        except ZeroDivisionError:
+            print('Error: one of the lecturers hasn\'t marks')
+            return False
+
+    def average_mark(self):
+        return sum(self.grade) / len(self.grade)
 
 
 class Reviewer(Mentor):
@@ -56,37 +146,48 @@ class Reviewer(Mentor):
             return 'Ошибка'
 
 
-best_student = Student('Ruoy', 'Eman', 'your_gender')
-best_student.courses_in_progress += ['Python']
+student_Ruoy = Student('Ruoy', 'Eman', 'your_gender')
+student_Ruoy.courses_in_progress += ['Python']
+
+student_Lex = Student('Lex', 'Magrau', 'your_gender')
+student_Lex.courses_in_progress += ['HTML']
+
+mentor_Some = Reviewer('Some', 'Buddy')
+mentor_Some.courses_attached += ['Python']
+
+mentor_Bob = Reviewer('Bob', 'Karlson')
+mentor_Bob.courses_attached += ['HTML']
+
+lecturer_Maiami = Lecturer('Maiami', 'Ferst')
+lecturer_Maiami.courses_attached += ['Django', 'HTML']
+
+lecturer_Farid = Lecturer('Farid', 'Anders')
+lecturer_Farid.courses_attached += ['Python', 'Git']
 
 
-cool_mentor = Reviewer('Some', 'Buddy')
-cool_mentor.courses_attached += ['Python']
+mentor_Some.rate_hw(student_Ruoy, 'Python', 10)
+mentor_Some.rate_hw(student_Ruoy, 'Python', 9)
+mentor_Some.rate_hw(student_Ruoy, 'Python', 10)
 
-cool_mentor.rate_hw(best_student, 'Python', 10)
-cool_mentor.rate_hw(best_student, 'Python', 10)
-cool_mentor.rate_hw(best_student, 'Python', 10)
+mentor_Bob.rate_hw(student_Lex, 'HTML', 10)
+mentor_Bob.rate_hw(student_Lex, 'HTML', 10)
+mentor_Bob.rate_hw(student_Lex, 'HTML', 8)
 
-print(best_student.grades)
+# оценка не добавиться так как данный ментр не ведет курс по HTML
+mentor_Some.rate_hw(student_Lex, 'HTML', 10)
 
-lect = Lecturer('Maiami', 'Ferst')
-lect_2 = Lecturer('Farid', 'Anders')
+student_Ruoy.lector_rate(lecturer_Farid, 'Python', 9)
+student_Ruoy.lector_rate(lecturer_Farid, 'Python', 8)
+student_Ruoy.lector_rate(lecturer_Maiami, 'C++', 5)
 
-lect.courses_attached += ['django', 'HTML']
-lect_2.courses_attached += ['C++', 'git']
+student_Lex.lector_rate(lecturer_Maiami, 'HTML', 10)
+student_Lex.lector_rate(lecturer_Maiami, 'HTML', 8)
+student_Lex.lector_rate(lecturer_Farid, 'Git', 5)
 
+print('-------')
+print(student_Ruoy)
+print('-------')
 
-best_student.courses_in_progress += ['django']
+student_Ruoy.finished_courses += ['HTML']
 
-best_student.lector_rate(lect, 'django', 9)
-best_student.lector_rate(lect, 'django', 9)
-cool_mentor.courses_attached += ['django']
-
-cool_mentor.rate_hw(best_student, 'django', 5)
-
-print(lect.grade)
-print(lect_2.grade)
-
-print(best_student)
-
-print(best_student.grades)
+print(student_Ruoy < student_Lex)
