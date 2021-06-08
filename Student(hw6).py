@@ -8,10 +8,11 @@ class Student:
         self.grades = {}
 
     def __str__(self):
+        
         return f'''
 Имя: {self.name}
 Фамилия: {self.surname}
-Средняя оценка за домашние задания: {self.grades.values()}
+Средняя оценка за домашние задания: {sum([sum(i) for i in self.grades.values()])/ }
 Курсы в процессе изучения: {', '.join([cours for cours in self.courses_in_progress])}
 Завершенные курсы: {', '.join([finish_cours for finish_cours in self.finished_courses])}'''
 
@@ -79,8 +80,13 @@ best_student.courses_in_progress += ['django']
 
 best_student.lector_rate(lect, 'django', 9)
 best_student.lector_rate(lect, 'django', 9)
+cool_mentor.courses_attached += ['django']
+
+cool_mentor.rate_hw(best_student, 'django', 5)
 
 print(lect.grade)
 print(lect_2.grade)
 
 print(best_student)
+
+print(best_student.grades)
