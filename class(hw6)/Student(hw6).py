@@ -149,22 +149,28 @@ class Reviewer(Mentor):
         else:
             return 'Ошибка'
 
-#Создание студента Ruoy 
+
+# Создание студента Ruoy
 student_Ruoy = Student('Ruoy', 'Eman', 'your_gender')
 student_Ruoy.courses_in_progress += ['Python']
 
+# Создание студента Lex
 student_Lex = Student('Lex', 'Magrau', 'your_gender')
 student_Lex.courses_in_progress += ['HTML', 'Python']
 
+# Создание проверяющего Some
 reviewer_Some = Reviewer('Some', 'Buddy')
 reviewer_Some.courses_attached += ['Python']
 
+# Создание проверяющего Bob
 reviewer_Bob = Reviewer('Bob', 'Karlson')
 reviewer_Bob.courses_attached += ['HTML']
 
+# Создание лектора Maiami
 lecturer_Maiami = Lecturer('Maiami', 'Ferst')
 lecturer_Maiami.courses_attached += ['Django', 'HTML']
 
+# Создание лектора Farid
 lecturer_Farid = Lecturer('Farid', 'Anders')
 lecturer_Farid.courses_attached += ['Python', 'Git']
 
