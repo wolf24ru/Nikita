@@ -220,7 +220,7 @@ print(student_Ruoy < student_Lex)
 # надеюсь это не ошибка.
 
 
-def average_mark_all_person(persons_list, cours):
+def Average_mark_all_person(persons_list, cours):
     average_mark_list = []
     for person in persons_list:
         if cours in person.grades:
@@ -228,12 +228,12 @@ def average_mark_all_person(persons_list, cours):
     return sum(average_mark_list) / len(average_mark_list)
 
 
-average_mark_stud_py = average_mark_all_person(
+average_mark_stud_py = Average_mark_all_person(
     [student_Lex, student_Ruoy], 'Python')
 
 print(f'Средняя оценка студентов за курс Python: {average_mark_stud_py}')
 print()
 
-average_mark_lector_py = average_mark_all_person(
+average_mark_lector_py = Average_mark_all_person(
     [lecturer_Maiami, lecturer_Farid], 'Python')
 print(f'Средняя оценка лекторов за курс Python: {average_mark_lector_py}')
