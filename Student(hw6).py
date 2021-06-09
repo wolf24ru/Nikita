@@ -63,7 +63,10 @@ class Student:
 
     def lector_rate(self, lector, course, grade):
         if isinstance(lector, Lecturer) and course in self.courses_in_progress and course in lector.courses_attached:
-            lector.grade += [grade]
+            if course in lector.grades:
+                lector.grades[course] += [grade]
+            else:
+                lector.grades[course] = [grade]
         else:
             return 'Error lector_rate'
 
@@ -78,7 +81,7 @@ class Mentor:
 class Lecturer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
-        self.grade = []
+        self.grades = {}
 
     def __str__(self):
         return f'''
@@ -129,12 +132,13 @@ class Lecturer(Mentor):
             return False
 
     def average_mark(self):
-        return sum(self.grade) / len(self.grade)
+        return sum([sum(grade_list) for grade_list in self.grades.values()]) / \
+            sum([len(grade_list) for grade_list in self.grades.values()])
 
 
 class Reviewer(Mentor):
     def __str__(self):
-        return f"Имя: {self.name}\nФамилия: {self.surname}"
+        return f'Имя: {self.name}\nФамилия: {self.surname}'
 
     def rate_hw(self, student, course, grade):
         if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
@@ -145,7 +149,7 @@ class Reviewer(Mentor):
         else:
             return 'Ошибка'
 
-
+#Создание студента Ruoy 
 student_Ruoy = Student('Ruoy', 'Eman', 'your_gender')
 student_Ruoy.courses_in_progress += ['Python']
 
@@ -205,15 +209,25 @@ print(lecturer_Maiami != lecturer_Farid)
 student_Ruoy.finished_courses += ['HTML']
 print(student_Ruoy < student_Lex)
 
+# знаю что не соответствует заданию, но мне кажется избыточным создавать 2
+# одинаковые функции с разными названиями. Поэтому решил создать одну,
+# надеюсь это не ошибка.
 
-def average_mark_all_student(students, cours):
+
+def average_mark_all_person(persons_list, cours):
     average_mark_list = []
-    for student in students:
-        if cours in student.grades:
-            average_mark_list += student.grades.get(cours)
+    for person in persons_list:
+        if cours in person.grades:
+            average_mark_list += person.grades.get(cours)
     return sum(average_mark_list) / len(average_mark_list)
 
-def average_mark_all_lecturer(lecturer, cours):
-    pass
 
-# average_mark_all_student([student_Ruoy, student_Lex], 'Python')
+average_mark_stud_py = average_mark_all_person(
+    [student_Lex, student_Ruoy], 'Python')
+
+print(f'Средняя оценка студентов за курс Python: {average_mark_stud_py}')
+print()
+
+average_mark_lector_py = average_mark_all_person(
+    [lecturer_Maiami, lecturer_Farid], 'Python')
+print(f'Средняя оценка лекторов за курс Python: {average_mark_lector_py}')
