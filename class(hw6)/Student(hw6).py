@@ -58,8 +58,12 @@ class Student:
             return False
 
     def average_mark(self):
-        return sum([sum(i) for i in self.grades.values()]) / \
-            sum([len(i) for i in self.grades.values()])
+        try:
+            return sum([sum(i) for i in self.grades.values()]) / \
+                sum([len(i) for i in self.grades.values()])
+        except ZeroDivisionError:
+            print('Error: no ratings available')
+            return 0
 
     def lector_rate(self, lector, course, grade):
         if isinstance(lector, Lecturer) and course in self.courses_in_progress and course in lector.courses_attached:
@@ -132,8 +136,12 @@ class Lecturer(Mentor):
             return False
 
     def average_mark(self):
-        return sum([sum(grade_list) for grade_list in self.grades.values()]) / \
-            sum([len(grade_list) for grade_list in self.grades.values()])
+        try:
+            return sum([sum(grade_list) for grade_list in self.grades.values()]) / \
+                sum([len(grade_list) for grade_list in self.grades.values()])
+        except ZeroDivisionError:
+            print('Error: no ratings available')
+            return 0
 
 
 class Reviewer(Mentor):
@@ -173,6 +181,7 @@ lecturer_Maiami.courses_attached += ['Django', 'HTML']
 # Создание лектора Farid
 lecturer_Farid = Lecturer('Farid', 'Anders')
 lecturer_Farid.courses_attached += ['Python', 'Git']
+print(student_Ruoy)
 
 
 reviewer_Some.rate_hw(student_Ruoy, 'Python', 10)
