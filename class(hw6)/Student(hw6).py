@@ -229,7 +229,7 @@ print(student_Ruoy < student_Lex)
 # надеюсь это не ошибка.
 
 
-def Average_mark_all_person(persons_list, cours):
+def average_mark_all_person(persons_list, cours):
     average_mark_list = []
     for person in persons_list:
         if cours in person.grades:
