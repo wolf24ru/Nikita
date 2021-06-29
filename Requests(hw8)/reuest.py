@@ -11,7 +11,7 @@ def intelligence(super_hero_name):
         hero_json = result_requests.json()
         for x in hero_json.get('results'):
 
-#---------------- !!!переписать под опредления четого имени!!!!----------
+            #---------------- !!!переписать под опредления четого имени!!!!----------
 
             print(f'{num} {x.get("name")}')
             super_dict.update({num: x.get("id")})
