@@ -10,7 +10,7 @@ stack_questions_url = 'https://api.stackexchange.com/2.2/questions'
 tag = 'python'
 questions_dic = {}
 
-for page in range(100):
+for page in range(1, 100):
     params = {
         'fromdate': f'{int(dtime_now.timestamp())}',
         'todate': f'{int(dtime_days_ago.timestamp())}',
@@ -20,9 +20,9 @@ for page in range(100):
         'tagged': tag,
         'page': page}
 
-    questions_request = requests.get(stack_questions_url,
-                                     params=params)
+    questions_request = requests.get(stack_questions_url, params)
     json_reqest = questions_request.json()
+    print(json_reqest)
     if questions_request.status_code == 200:
         for x in json_reqest.get('items'):
             questions_dic.update({x['question_id']: x['title']})
