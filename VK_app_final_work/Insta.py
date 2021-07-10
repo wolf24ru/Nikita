@@ -6,6 +6,15 @@ class Insta_API:
         self.token = code
 
     def get_photo(self, limit):
+        '''получение поледних нескольких фото
+        Keyword arguments:
+         limit -- количество фотографий
+        return:
+        {'id': id картинки;
+         'media_url': ссылка на картинку
+        }
+
+        '''
         params = {
             'fields': 'id,media_url',
             'access_token': self.token,

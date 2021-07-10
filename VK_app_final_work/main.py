@@ -8,12 +8,17 @@ from Insta import Insta_API
 
 if __name__ == '__main__':
     # для работы программы необходимо каказть:
-    # TOKEN_VK, TOKEN_YA, TOKEN_INSTA, vk_user_id
+    # TOKEN_VK -- ключ доступа ВК (как получить - https://vk.com/dev/access_token);
+    # TOKEN_YA -- OAuth-токен яндекса( как получить https://yandex.ru/dev/disk/rest/);
+    # TOKEN_INSTA -- маркер доступа(действует 1 час)(как получить - https://developers.facebook.com/docs/instagram-basic-display-api/guides/getting-access-tokens-and-permissions/)
+    #               для преобразования кода авторизации в маркер моно воспользоваться get_token_inst.py;
+    # vk_user_id -- id пользователя в ВК для с которого получаем картинки
+#______________Обязательное заполение________________________________________
     TOKEN_VK = ''
     TOKEN_YA = ''
     TOKEN_INSTA = ''
-    vk_user_id = 
-
+    vk_user_id =
+#____________________________________________________________________________
     vk = FotoUpdate(TOKEN_VK)
     ya = YandexDisk(TOKEN_YA)
     insta = Insta_API(TOKEN_INSTA)

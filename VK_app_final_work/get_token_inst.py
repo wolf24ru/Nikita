@@ -2,11 +2,11 @@ import requests
 import sys
 
 params = {
-    'client_id': 1475772392761405,
-    'client_secret': '987eea46cea06f67452e7c611fb8fb3f',
+    'client_id':'ID приложения Instagram' ,
+    'client_secret': 'Секрет приложения Instagram',
     'grant_type': 'authorization_code',
-    'redirect_uri': 'https://socialsizzle.herokuapp.com/auth/',
-    'code': sys.argv[1]
+    'redirect_uri': 'URI перенаправления, переданный при переходе пользователя к окну авторизации. URI должны совпадать',
+    'code': 'Код авторизации, переданный в параметре code'
 }
 
 r = requests.post('https://api.instagram.com/oauth/access_token', params)

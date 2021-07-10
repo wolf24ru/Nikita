@@ -8,14 +8,16 @@ class FotoUpdate():
 
     def photos_profile_get(self, owner_id, album_id, count):
         '''Получение фотографий пользователя
-        Функкция принемает:
-        owner_id - id пользователя
-        count - количество возвращаеммых фотографиий
-        функция возвращает:
-        список словарей:
-        file_name - Название фотографии
-        size - размер вотографии
-        url - ссылка на фотографию'''
+        Keyword arguments:
+        owner_id -- id пользователя
+        count -- количество возвращаеммых фотографиий
+        return:
+        [{file_name: Название фотографии,
+          size: размер вотографии,
+          url: ссылка на фотографию
+          }]
+
+        '''
         resul_link_dict = []
         params = {
             'owner_id': owner_id,
@@ -37,6 +39,13 @@ class FotoUpdate():
         return resul_link_dict
 
     def albums_dict(self, owner_id):
+        '''Получение всех альбомов пользователя
+        Keyword arguments:
+        owner_id -- id пользователя ВК к альбомам которого у вас есть доступ
+        return:
+        {id_альбома: название_фльбома}
+
+        '''
         resul_link_dict = {}
         params = {
             'owner_id': owner_id,
