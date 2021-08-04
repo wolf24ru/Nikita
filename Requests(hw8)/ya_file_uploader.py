@@ -40,7 +40,7 @@ class YandexDisk:
 
 if __name__ == '__main__':
     # ввести токе
-    TOKEN = ''
+    TOKEN = 'AQAAAAAOOB4cAADLWy2bx1poD0SNrJDwruB3gCw'
 
     uploader = YandexDisk(TOKEN)
     file = askopenfilename(title='Выбор файла',
