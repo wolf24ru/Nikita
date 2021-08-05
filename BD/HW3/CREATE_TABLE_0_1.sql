@@ -6,7 +6,7 @@ CREATE TABLE Style(
 CREATE TABLE Collection(
 	id serial PRIMARY KEY,
 	titel varchar(60) NOT NULL,
-	year date NOT NULL
+	year integer NOT NULL
 );
 
 CREATE TABLE Performers(
@@ -28,14 +28,14 @@ CREATE TABLE Albom(
 	id serial PRIMARY KEY,
 	id_performer integer REFERENCES Performers(id),
 	albom_name varchar(150) NOT NULL,
-	release_year date NOT NULL
+	release_year integer NOT NULL
 );
 
 CREATE TABLE Tracks(
 	id serial PRIMARY KEY,
 	id_albom integer REFERENCES Albom(id) ON DELETE CASCADE,
 	track_name varchar(150) NOT NULL,
-	duration time without time zone NOT NULL
+	duration integer NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS PerformersAlbom(
