@@ -15,7 +15,6 @@ CREATE TABLE Performers(
 	name varchar(40) NOT NULL,
 	birth_year date NOT NULL,
 	nickname varchar(100),
-	id_style integer REFERENCES Style(id)
 );
 
 CREATE TABLE IF NOT EXISTS PerformersStyle (
@@ -26,7 +25,6 @@ CREATE TABLE IF NOT EXISTS PerformersStyle (
 
 CREATE TABLE Albom(
 	id serial PRIMARY KEY,
-	id_performer integer REFERENCES Performers(id),
 	albom_name varchar(150) NOT NULL,
 	release_year integer NOT NULL
 );
