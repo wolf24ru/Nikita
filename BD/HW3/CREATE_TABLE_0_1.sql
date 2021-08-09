@@ -14,7 +14,8 @@ CREATE TABLE Performers(
 	surname varchar(40) NOT NULL,
 	name varchar(40) NOT NULL,
 	birth_year date NOT NULL,
-	nickname varchar(100),
+	nickname varchar(100)
+
 );
 
 CREATE TABLE IF NOT EXISTS PerformersStyle (
