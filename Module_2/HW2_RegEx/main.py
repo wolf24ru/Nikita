@@ -19,24 +19,25 @@ def format_fio(contacts_list):
         r'(\+7|8)+[\s(]*(\d{3,3})[\s)-]*(\d{3})[\s-]*(\d{2})[\s-]*(\d{2})')
     phone_patern_add = re.compile(
         r'(\+7|8)+[\s(]*(\d{3,3})[\s)-]*(\d{3})[\s-]*(\d{2})[\s-]*(\d{2})[\s]*[(доб.\s]*(\d+)[)]*')
+
     for person_list in contacts_list[1:]:
-        n = 0
+        sum_repeating = 0
         for fio_in_list in person_list[0:2]:
             '''поместить Фамилию, Имя и Отчество человека в поля
             lastname, firstname и surnameсоответственно.
             В записной книжке изначально может быть
             Ф + ИО, ФИО, а может быть сразу правильно: Ф+И+О;'''
 
-            n += 1
+            sum_repeating += 1
             fio = fio_in_list.split()
 
             if len(fio) > 1:
-                if n == 1:
-                    for i in range(0, len(fio)):
-                        person_list[i] = fio[i]
-                elif n == 2:
-                    for i in range(1, len(fio) + 1):
-                        person_list[i] = fio[i - 1]
+                if sum_repeating == 1:
+                    for index in range(0, len(fio)):
+                        person_list[index] = fio[index]
+                elif sum_repeating == 2:
+                    for index in range(1, len(fio) + 1):
+                        person_list[index] = fio[index - 1]
 
         format_pone_namber(person_list, phone_patern_add,
                            r'+7(\2)\3-\4-\5 доб.\6')
@@ -51,19 +52,19 @@ def unification_repeating(contacts_list):
     for num, one_person in enumerate(contacts_list):
         merge_list = []
         fio = [name for name in one_person[:2]]
-        for index_1, list_p in enumerate(contacts_list[num + 1:]):
+        for index, list_p in enumerate(contacts_list[num + 1:]):
             if fio[0] in list_p and fio[1] in list_p:
                 for i in range(len(list_p)):
-                    one = contacts_list[num][i]
-                    tow = list_p[i]
+                    first_repeat = contacts_list[num][i]
+                    second_repeat = list_p[i]
                     repit_items.add(num)
-                    repit_items.add(num + index_1 + 1)
-                    if one == tow:
-                        merge_list.append(one)
-                    elif one == '' and tow != '':
-                        merge_list.append(tow)
+                    repit_items.add(num + index + 1)
+                    if first_repeat == second_repeat:
+                        merge_list.append(first_repeat)
+                    elif first_repeat == '' and second_repeat != '':
+                        merge_list.append(second_repeat)
                     else:
-                        merge_list.append(one)
+                        merge_list.append(first_repeat)
         if num in repit_items:
             if merge_list:
                 result_list.append(merge_list)
