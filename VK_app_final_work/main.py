@@ -32,7 +32,6 @@ if __name__ == '__main__':
                                   'name_album': name_album}})
         print(f'{n}: {name_album}')
         n += 1
-
     while True:
         chosen = int(
             input('Выберите номер албома из кооторого будут загруженны фотографии: '))
@@ -40,7 +39,19 @@ if __name__ == '__main__':
             break
         else:
             print('Введенного вами варианта не существует\
-                \nПопробуйте снова:')
+                \nПопробуйте снова:')    # def photos_get(self, owner_id):
+    #     params = {
+    #         'owner_id': owner_id,
+    #         'album_id': 'profile',
+    #         'count': 2,
+    #         'access_token': self.vk_token,
+    #         'v': 5.77
+    #     }
+    #     href = requests.get('https://api.vk.com/method/photos.get', params).json()
+    #     # for photo in href['response']['items']:
+    #     #     print(photo['sizes'][-1]['url'])
+    #     print(href)
+    #     return href
 
 # запись из VK в яндекс
     folder_in_ya = f'{now_date}_vk'
