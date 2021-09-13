@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from pathlib import Path
 
 def log_function(old_function):
 	def new_function(*arg, **kwarg):
@@ -7,8 +7,8 @@ def log_function(old_function):
 		result = old_function(*arg, **kwarg)
 		name_function = old_function.__name__
 		file = ('log_file.txt')
-		all_information = f'- {time_naw}, {name_function}, {arg}, {kwarg}, {result}\n'
-
+		path_to_file = Path(Path(file).cwd(), file)
+		all_information = f'- {time_naw}, {name_function}, {arg}, {kwarg}, {result}, {path_to_file}\n'
 		with open(file, 'a') as f:
 			f.write(all_information)
 		return result

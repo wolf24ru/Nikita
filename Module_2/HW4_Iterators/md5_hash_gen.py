@@ -2,6 +2,7 @@ import hashlib
 from pathlib import Path
 
 
+
 def md5_hash_gen(path_file):
     md5_hash = hashlib.md5()
     with path_file.open() as f:

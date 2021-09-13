@@ -12,7 +12,7 @@ class Сountry_in_wiki:
     не раскомментировать иначе программа будет прогонять все 250 стран,
     в сренем это занимает где-то минут 5
     '''
-
+    
     def __init__(self, json_file):
         '''
         '''
@@ -20,7 +20,7 @@ class Сountry_in_wiki:
         self.index = -1
         self.end = 50
         # self.end = len(self.json_data)
-        self.bar = IncrementalBar('Countdown', max=self.end)
+        self.bar = IncrementalBar('Стран обработанно:', max=self.end)
 
     def __iter__(self):
         return self
