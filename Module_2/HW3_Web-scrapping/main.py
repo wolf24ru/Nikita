@@ -2,14 +2,15 @@ import requests
 import sys
 from bs4 import BeautifulSoup
 import_path_dec = '/home/user/Nikita/git/Nikita/Module_2/HW5_Decorators'
-sys.path.insert(1,import_path_dec)
+sys.path.insert(1, import_path_dec)
 from Log_Decor import log_function
+
 
 @log_function
 def find_keywords(KEYWORDS):
     ret = requests.get('https://habr.com/ru/all/')
     ret.raise_for_status()
-    result_list =[]
+    result_list = []
 
     soup = BeautifulSoup(ret.text, 'html.parser')
     articals = soup.find_all('article', class_='tm-articles-list__item')
@@ -28,9 +29,9 @@ def find_keywords(KEYWORDS):
                 break
     return result_list
 
+
 if __name__ == '__main__':
     KEYWORDS = ['дизайн', 'фото', 'web', 'python']
     result_list = find_keywords(KEYWORDS)
 
-    
     print(result_list)
