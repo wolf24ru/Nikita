@@ -4,7 +4,7 @@ def doc_is_exist(directories):
     directories: dictionary of document shelf's """
 
     while True:
-        doc_number = input('\nВвидте номер документа:\n')
+        doc_number = input('\nВведите номер документа:\n')
 
         if [doc_list
             for doc_list in directories.values()
