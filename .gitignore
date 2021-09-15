@@ -1,6 +1,8 @@
+
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 # Byte-compiled / optimized / DLL files
+.__pycache__
 __pycache__/
 *.py[cod]
 *$py.class
@@ -128,6 +130,7 @@ pip-selfcheck.json
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
 
+.idea
 .idea/
 
 ## File-based project format:
