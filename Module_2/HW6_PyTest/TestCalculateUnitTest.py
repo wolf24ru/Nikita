@@ -2,7 +2,7 @@
 import pytest
 
 from hw5 import documents, directories
-from hw5 import doc_is_exist, name_form_number_doc, shelf_form_number_doc, all_document_list, add_new_document, \
+from hw5 import doc_is_exist, name_form_number_doc, shelf_form_number_doc, add_new_document, \
     delete_document, change_shelf, add_shelf
 
 
@@ -83,3 +83,6 @@ class TestCalculatePytest:
     def test_delete_document(self, monkeypatch, input_number):
         monkeypatch.setattr('builtins.input', lambda _: input_number)
         assert delete_document(documents, directories) == 1
+
+if __name__ == '__main__':
+    pytest.main()
