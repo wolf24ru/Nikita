@@ -5,3 +5,5 @@
 - 2021-09-13 16:43:51.676205, compound_interest, (8, 10, 50000), {}, РС‚РѕРіРѕРІР°СЏ СЃСЃСѓРјР° РїРѕ РІРєР»Р°РґСѓ 107946.25, log_file.txt
 - 2021-09-13 16:44:32.216081, compound_interest, (8, 10, 50000), {}, РС‚РѕРіРѕРІР°СЏ СЃСЃСѓРјР° РїРѕ РІРєР»Р°РґСѓ 107946.25, /home/user/Nikita/git/Nikita/Module_2/HW5_Decorators/log_file.txt
 - 2021-09-13 18:16:38.232663, compound_interest, (8, 10, 50000), {}, Итоговая ссума по вкладу 107946.25, E:\Git\Nikita\Module_2\HW5_Decorators\log_file.txt
+- 2021-09-22 20:20:37.527477, compound_interest, (8, 10, 50000), {}, Итоговая ссума по вкладу 107946.25, E:\Git\Nikita\Module_2\HW5_Decorators\log_file.txt
+- 2021-09-22 20:22:06.303199, compound_interest, (8, 10, 50000), {}, Итоговая ссума по вкладу 107946.25, E:\Git\Nikita\Module_2\HW5_Decorators\log_file.txt
