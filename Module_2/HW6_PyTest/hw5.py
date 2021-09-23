@@ -12,6 +12,7 @@ def doc_is_exist(directories):
             return doc_number
         else:
             print('Вы ввели не существующий документ')
+            return -1
 
 
 def name_form_number_doc(documents, directories):
