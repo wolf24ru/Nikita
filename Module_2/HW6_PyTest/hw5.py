@@ -3,18 +3,6 @@ def doc_is_exist(directories):
     Function for input number of document
     directories: dictionary of document shelf's """
 
-<<<<<<< HEAD
-    while True:
-        doc_number = input('\nВведите номер документа:\n')
-
-        if [doc_list
-            for doc_list in directories.values()
-                if doc_number in doc_list]:
-            return doc_number
-        else:
-            print('Вы ввели не существующий документ')
-            return -1
-=======
     doc_number = input('\nВведите номер документа:\n')
     if [doc_list
         for doc_list in directories.values()
@@ -23,9 +11,7 @@ def doc_is_exist(directories):
     else:
         print('Вы ввели не существующий документ')
         raise ValueError("Нет введенных данных")
->>>>>>> 314402679414cae4a55aa6413d0e6d223ea8b450
-
-
+        
 def name_form_number_doc(documents, directories):
     """ name_form_number_docdoc_is_exist(documents)
     Function requests document's number and return owners name
