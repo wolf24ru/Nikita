@@ -3,6 +3,7 @@ def doc_is_exist(directories):
     Function for input number of document
     directories: dictionary of document shelf's """
 
+<<<<<<< HEAD
     while True:
         doc_number = input('\nВведите номер документа:\n')
 
@@ -13,6 +14,16 @@ def doc_is_exist(directories):
         else:
             print('Вы ввели не существующий документ')
             return -1
+=======
+    doc_number = input('\nВведите номер документа:\n')
+    if [doc_list
+        for doc_list in directories.values()
+        if doc_number in doc_list]:
+        return doc_number
+    else:
+        print('Вы ввели не существующий документ')
+        raise ValueError("Нет введенных данных")
+>>>>>>> 314402679414cae4a55aa6413d0e6d223ea8b450
 
 
 def name_form_number_doc(documents, directories):
@@ -61,19 +72,19 @@ def add_new_document(documents_dict, directories_dict):
     doc_type = input('Введите тип документа:\n')
     doc_number = input('Ввидте номер документа\n')
     doc_name = input('Введите имя\n')
-    while True:
-        doc_shel = input('Введите номер полки\n')
-        if doc_shel in [shelf_number
+
+    doc_shel = input('Введите номер полки\n')
+    if doc_shel not in [shelf_number
                         for shelf_number in directories_dict.keys()]:
-            break
-        else:
-            print('Вы ввели номер не существующей полки, попробуйте снова\n')
+        print('Вы ввели номер не существующей полки\n')
+        raise ValueError("Не верное значение!!!")
 
     documents_dict.append({"type": doc_type,
                            "number": doc_number,
                            "name": doc_name})
     directories_dict.get(doc_shel).append(doc_number)
     print('Новый документ добавлен')
+    return 1
 
 
 def delete_document(documents, directories):
@@ -95,6 +106,7 @@ def delete_document(documents, directories):
             directories.get(shelf).remove(document_number)
             break
     print(f'документ с номером {document_number} был удален')
+    return 1
 
 
 def change_shelf(directories):
@@ -106,14 +118,12 @@ def change_shelf(directories):
     print('Перемещение документа на другую полку\n')
     doc_number = doc_is_exist(directories)
 
-    while True:
-        doc_shelf = input(
-            'Введите номер полки на которую необходимо переместить документ\n')
-        if doc_shelf in [shelf_number
-                         for shelf_number in directories.keys()]:
-            break
-        else:
-            print('Вы ввели номер не существующей полки, попробуйте снова\n')
+    doc_shelf = input(
+        'Введите номер полки на которую необходимо переместить документ\n')
+    if doc_shelf not in [shelf_number
+                     for shelf_number in directories.keys()]:
+        print('Вы ввели номер не существующей полки\n')
+        raise ValueError("Не верное значение!")
 
     for shelf, value in directories.items():
         if doc_number in value:
@@ -123,6 +133,7 @@ def change_shelf(directories):
     directories.get(doc_shelf).append(doc_number)
     print(
         f'Документ с номером {doc_number} был перемещен на полку {doc_shelf}')
+    return 1
 
 
 def add_shelf(directories):
@@ -132,16 +143,16 @@ def add_shelf(directories):
     """
 
     print('Добавление новой полки\n')
-    while True:
-        new_shelf = input(
-            'Введите номер полки которую необходимо добавить\n')
-        if new_shelf not in [shelf_number
-                             for shelf_number in directories.keys()]:
-            directories.update({new_shelf: []})
-            print(f'Полка {new_shelf} была добавлена')
-            break
-        else:
-            print('Вы ввели номер существующей полки, попробуйте снова\n')
+    new_shelf = input(
+        'Введите номер полки которую необходимо добавить\n')
+    if new_shelf not in [shelf_number
+                         for shelf_number in directories.keys()]:
+        directories.update({new_shelf: []})
+        print(f'Полка {new_shelf} была добавлена')
+        return 1
+    else:
+        print('Вы ввели номер существующей полки, попробуйте снова\n')
+        raise ValueError("Не верное значение!")
 
 
 documents = [
