@@ -6,7 +6,7 @@ engine = create_engine(
 connection = engine.connect()
 
 # connection.execute('DELETE FROM Style')
-Создание  5 жанров
+# Создание  5 жанров
 connection.execute('''INSERT INTO Style(style_name)
 	VALUES ('Классика'),
 	('Кантри'),

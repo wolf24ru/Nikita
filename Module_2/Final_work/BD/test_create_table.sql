@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS User_table(
 	)
 
 CREATE TABLE Marital_Status(
-    id_status integer primary key,
+    id_status serial primary key,
     marital_status varchar
 )
 
