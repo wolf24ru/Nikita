@@ -26,7 +26,7 @@ class VKinder_db:
         # создание таблицы для пользователей
         self.connection.execute('''
         CREATE TABLE IF NOT EXISTS User_table(
-            id_user varchar(20) primary key,
+            id_user integer primary key,
             name_user varchar(40)
             );
             ''')
@@ -43,7 +43,7 @@ class VKinder_db:
         self.connection.execute('''
         CREATE TABLE IF NOT EXISTS User_request(
             request_id serial NOT NULL,
-            id_user varchar references User_table(id_user) ON DELETE CASCADE,
+            id_user integer references User_table(id_user) ON DELETE CASCADE,
             age integer not null,
             sex integer CHECK ( sex>=0 and sex<=2),
             city varchar not null,
@@ -56,8 +56,8 @@ class VKinder_db:
         self.connection.execute('''
         CREATE TABLE IF NOT EXISTS Search_users(
             id_search serial NOT NULL,
-            search_user_id varchar NOT NULL,
-            to_id_user varchar references User_table(id_user) ON DELETE CASCADE,
+            search_user_id integer NOT NULL,
+            to_id_user integer references User_table(id_user) ON DELETE CASCADE,
             age integer not null,
             sex integer not null,
             city varchar not null,
@@ -81,18 +81,40 @@ class VKinder_db:
                                 )
 
     # 	добавление нового запроса
-    def add_request(self):
-        pass
+    def add_request(self, id_user: int, age: int, sex: int, city: str, marital_status: int):
+        self.connection.execute(
+            f'''
+            INSERT INTO User_request(id_user, age, sex, city, marital_status)
+            VALUES({id_user}, {age}, {sex}, {city}, {marital_status});
+            '''
+        )
 
     # 	добавление нового пользователя
-    def add_user(self):
-        pass
+    def add_user(self, id_user: int, name_user: str):
+        self.connection.execute(
+            f'''
+            INSERT INTO User_table(id_user, name_user)
+            VALUES({id_user}, {name_user});
+            '''
+        )
 
     # 	добавление пользователя из результата запроса
-    def add_search(self):
+    def add_search(self, search_user_id: int, to_id_user: int, age: int, sex: int, city: str, marital_status: int):
+        self.connection.execute(
+            f'''
+            INSERT INTO User_request(search_user_id, to_id_user, age, sex, city, marital_status)
+            VALUES({search_user_id}, {to_id_user}, {age}, {sex}, {city}, {marital_status});
+                    '''
+        )
+
+    #   удаление запроса
+    def delete_request(self):
         pass
 
+    #   Удаление пользователя
+    def delete_user(self):
+        pass
 
-if __name__ == '__main__':
-    db_connect = VKinder_db('vk', '12345678', 'vkinder_db')
-    db_connect.new_db()
+    #   Удаление пользователя из результата запроса
+    def delete_search(self):
+        pass
