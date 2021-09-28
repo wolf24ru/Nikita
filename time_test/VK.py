@@ -60,10 +60,11 @@ class FotoUpdate():
             resul_link_dict.update({aldum['id']: aldum['title']})
         return resul_link_dict
 
-        def getLongPollServer(self, group_id):
-            params = {
-            'group_id': group_id,
-            'v': 5.131
-            }
-            return req = requests.get(
-                'https://api.vk.com/method/groups.getLongPollServer', params).json()
+    def getLongPollServer(self, group_id):
+        params = {
+        'group_id': group_id,
+        'access_token': self.vk_token,
+        'v': '5.131'
+        }
+        print(requests.get(
+            'https://api.vk.com/method/groups.getLongPollServer', params).json()) 
