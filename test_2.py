@@ -1,10 +1,13 @@
+marital_status_dict = {
+    'не женат (не замужем)': 1,
+    'встречается':2,
+    'помолвлен(-а)': 3,
+    'женат (замужем)': 4,
+    'всё сложно': 5,
+    'в активном поиске': 6,
+    'влюблен(-а)': 7,
+    'в гражданском браке': 8}
 
-def multipication_int(a,b):
-    return a * b
+text = 'всё сложно'
 
-def multipication_string(line, n):
-    return line * n
-
-if __name__ == '__main__':
-    print(multipication_int(3, 2))
-    print(multipication_string('hello', 3))
+print(marital_status_dict[text])
