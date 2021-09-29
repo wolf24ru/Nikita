@@ -17,6 +17,7 @@ if __name__ == '__main__':
         event = listen_list[1]
         if event.text == 'Начать':
             # проверка на нового пользователя
+
             if event.from_user:
                 # если пользователь новый
                 user_name = user_info[0]['first_name']

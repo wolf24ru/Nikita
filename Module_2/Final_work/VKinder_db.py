@@ -1,7 +1,10 @@
+import sqlalchemy as sq
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-
+from sqlalchemy.orm import sessionmaker, relationship
 
 class VKinder_db:
+
     def __init__(self, user: str, password: str, db: str, port=5432):
         """
         Подключение к БД
@@ -10,6 +13,48 @@ class VKinder_db:
         :param db: Имя БД
         :param port: Порт подключения (по умолчанию 5432)
         """
+
+        Base = declarative_base()
+        engine = sq.create_engine(f'postgresql://{user}:{password}@localhost:{port}/{db}')
+        session = sessionmaker(bind=engine)
+
+        class User_table(Base):
+            __tablename__ = 'user_table'
+
+            id_user = sq.Column(sq.Integer, primary_key=True)
+            name_user = sq.Column(sq.String(40))
+
+        class Marital_Status(Base):
+            __tablename__ = 'marital_status'
+
+            id_status = sq.Column(sq.Integer, primary_key=True)
+            marital_status = sq.Column(sq.String)
+
+        class User_request(Base):
+            __tablename__ = 'user_request'
+
+            request_id = sq.Column(sq.Integer, nullable=False)
+            id_user = sq.Column(sq.Integer, sq.ForeignKey('user_table.id_user'), passive_deletes=True)
+            age = sq.Column(sq.Integer, nullable=False)
+            sex = sq.Column(sq.Integer, sq.CheckConstraint('sex>=0 and sex<=2'), nullable=False)
+            city = sq.Column(sq.String, nullable=False)
+            marital_status = sq.Column(sq.String, sq.ForeignKey('marital_status.id_status'), passive_deletes=True)
+            sq.PrimaryKeyConstraint(request_id, id_user, name='user_request_pk')
+
+        class Search_users(Base):
+            __tablename__ = 'search_users'
+
+            id_search = sq.Column(sq.Integer, nullable=False)
+            search_user_id = sq.Column(sq.Integer, nullable=False)
+            to_id_user = sq.Column(sq.Integer, sq.ForeignKey('user_table.id_user'), passive_deletes=True)
+            age = sq.Column(sq.Integer, nullable=False)
+            sex = sq.Column(sq.Integer, nullable=False)
+            city = sq.Column(sq.String, nullable=False)
+            marital_status = sq.Column(sq.String, sq.ForeignKey('marital_status.id_status'), passive_deletes=True)
+            sq.PrimaryKeyConstraint(id_search, search_user_id, name='search_users_pk')
+
+
+
         engine = create_engine(
             f'postgresql://{user}:{password}@localhost:{port}/{db}')
         self.connection = engine.connect()
@@ -118,3 +163,15 @@ class VKinder_db:
     #   Удаление пользователя из результата запроса
     def delete_search(self):
         pass
+
+    #   Проверка на нового пользователя
+    def checking_new_user(self, user_id):
+        self.connection.execute(f'''
+        SELECT id_user
+        FROM User_table
+        WHERE id_user = '{user_id}';
+        ''')
+
+    #   Выдача последнего запроса пользователя
+
+    #
