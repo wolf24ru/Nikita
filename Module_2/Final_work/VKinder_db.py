@@ -25,7 +25,8 @@ class User_request(Base):
 
     request_id = sq.Column(sq.Integer, nullable=False)
     id_user = sq.Column(sq.Integer, sq.ForeignKey('user_table.id_user'))
-    age = sq.Column(sq.Integer, nullable=False)
+    age_from = sq.Column(sq.Integer, nullable=False)
+    age_to = sq.Column(sq.Integer, nullable=False)
     sex = sq.Column(sq.Integer, sq.CheckConstraint('sex>=0 and sex<=2'), nullable=False)
     city = sq.Column(sq.String, nullable=False)
     marital_status = sq.Column(sq.Integer, sq.ForeignKey('marital_status.id_status'))
@@ -38,10 +39,10 @@ class Search_users(Base):
     id_search = sq.Column(sq.Integer, nullable=False)
     search_user_id = sq.Column(sq.Integer, nullable=False)
     to_id_user = sq.Column(sq.Integer, sq.ForeignKey('user_table.id_user'))
-    age = sq.Column(sq.Integer, nullable=False)
-    sex = sq.Column(sq.Integer, nullable=False)
-    city = sq.Column(sq.String, nullable=False)
-    marital_status = sq.Column(sq.Integer, sq.ForeignKey('marital_status.id_status'))
+    # age = sq.Column(sq.Integer, nullable=False)
+    # sex = sq.Column(sq.Integer, nullable=False)
+    # city = sq.Column(sq.String, nullable=False)
+    # marital_status = sq.Column(sq.Integer, sq.ForeignKey('marital_status.id_status'))
     sq.PrimaryKeyConstraint(id_search, search_user_id, name='search_users_pk')
 
 class VKinder_db:
@@ -145,9 +146,10 @@ class VKinder_db:
     #                             )
 
     # # 	добавление нового запроса
-    def add_request(self, id_user: int, age: int, sex: int, city: str, marital_status: int):
+    def add_request(self, id_user: int, age_from: int, age_to: int, sex: int, city: str, marital_status: int):
         self.sess.add(User_request(id_user=id_user,
-                                   age=age,
+                                   age_from=age_from,
+                                   age_to=age_to,
                                    sex=sex,
                                    city=city,
                                    marital_status=marital_status))
@@ -160,13 +162,10 @@ class VKinder_db:
         self.sess.commit()
 
     # 	добавление пользователя из результата запроса
-    def add_search(self, search_user_id: int, to_id_user: int, age: int, sex: int, city: str, marital_status: int):
+    def add_search(self, search_user_id: int, to_id_user: int):
         self.sess.add(User_request(search_user_id=search_user_id,
-                                   to_id_user=to_id_user,
-                                   age=age,
-                                   sex=sex,
-                                   city=city,
-                                   marital_status=marital_status))
+                                   to_id_user=to_id_user
+                                   ))
         self.sess.commit()
 
     #   удаление запроса
@@ -182,7 +181,7 @@ class VKinder_db:
         pass
 
     #   Проверка на нового пользователя
-    def checking_new_user(self, user_id: int, user_name: str) -> bool:
+    def check_new_user(self, user_id: int, user_name: str) -> bool:
         query = self.sess.query(User_table)
         for id_u in query:
             if user_id == id_u.id_user:
@@ -190,4 +189,10 @@ class VKinder_db:
         self.add_user(user_id, user_name)
         return True
 
+    # Проверка на наличе запроса от пользователя в БД
     #   Выдача последнего запроса пользователя
+    def last_request(self, user_id: int) -> dict:
+        query = self.sess.query(User_request).where(User_request.id_user == int(user_id))
+        if len(query.all()):
+            return query.all()[-1]
+        return query.all()

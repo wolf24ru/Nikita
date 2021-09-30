@@ -68,3 +68,24 @@ class FotoUpdate():
         }
         print(requests.get(
             'https://api.vk.com/method/groups.getLongPollServer', params).json()) 
+
+    def sm(self):
+
+        user_re = {'can_access_closed': True,
+        'domain': 'tderefinka',
+        'first_name': 'Татьяна',
+        'id': 163191455,
+        'is_closed': False,
+        'last_name': 'Дерефинка',
+        'track_code': 'dd0f3f2aY-rkm2Hxj6LIk86OBz0_wReIV-96YEGx7K75uvqbk3wEg_Wcb8_fo8OT92S9h8DGf4ZR7HpgT9c'}
+        
+        params = {
+        'count': 10,
+        'fields': 'domain',
+        'access_token': self.vk_token,
+        'v': '5.131'
+        }
+        return requests.get(
+            'https://api.vk.com/method/users.search', params).json()
+
+

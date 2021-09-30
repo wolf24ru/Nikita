@@ -1,3 +1,6 @@
+import random
+from typing import Dict, Union, Any, Type
+
 import vk_api
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.utils import get_random_id
@@ -10,6 +13,10 @@ class VK_bot:
         self.token_vk_group = token_vk_group
         self.vk_session = vk_api.VkApi(token=self.token_vk_group)
         self.longpoll = VkBotLongPoll(self.vk_session, group_id)
+
+        service_key = '1d3b026e1d3b026e1d3b026e4f1d437ba211d3b1d3b026e7dd950775b189f26d67f7236'
+        self.service_session = vk_api.VkApi(token=service_key)
+
         # self.vk = self.vk_session.get_api()
 
         self.keyboard_new = VkKeyboard(one_time=False)
@@ -40,7 +47,6 @@ class VK_bot:
         self.keyboard_marital_normal.add_line()
         self.keyboard_marital_normal.add_button('в активном поиске', color=VkKeyboardColor.SECONDARY)
         self.keyboard_marital_normal.add_button('в гражданском браке', color=VkKeyboardColor.SECONDARY)
-
 
         self.keyboard_wrong = VkKeyboard(one_time=True)
         self.keyboard_wrong.add_button('Закончить', color=VkKeyboardColor.NEGATIVE)
@@ -81,13 +87,27 @@ class VK_bot:
                       keyboard=self.keyboard_sex.get_keyboard()
                       )
 
+    def search_city_id(self, city: str) -> int:
+        city_result = self.service_session.get_api().database.getCities(
+            country_id=1,
+            q=city,
+            need_all=0,
+            count=1,
+        )
+        print(city_result)
+        return city_result['items'][0]['id']
+
+
+
+
+
     def new_user_search(self, user_id) -> dict:
         marital_status = int
         next_msg = True
         sex = int
         marital_status_dict = {
             'не женат (не замужем)': 1,
-            'встречается':2,
+            'встречается': 2,
             'помолвлен(-а)': 3,
             'женат (замужем)': 4,
             'всё сложно': 5,
@@ -96,11 +116,11 @@ class VK_bot:
             'в гражданском браке': 8
         }
 
-        self.send_msg(message=f'Для начала на клавиатуре ниже выбери пол своей будущей второй половинке',
+        self.send_msg(message=f'Для начала на клавиатуре ниже выбери пол своей будущей второй половинки',
                       user_id=user_id,
                       keyboard=self.keyboard_sex.get_keyboard()
                       )
-        text = self.listen_dialog()[1].txte
+        text = self.listen_dialog()[1].text
         if text == 'Мужской':
             sex = 2
         elif text == 'Женский':
@@ -109,11 +129,11 @@ class VK_bot:
             self.not_understand_msg(user_id)
 
         self.send_msg(message=f'Отлично! Продолжаем. \n'
-                              f'Напиши через пробел возростной интервал.',
+                              f'Напиши через пробел возрастной интервал.',
                       user_id=user_id,
                       )
         while True:
-            text = self.listen_dialog()[1].txte
+            text = self.listen_dialog()[1].text
             if text == 'Закончить':
                 self.send_msg(message=f'Ииии... Закончали!',
                               user_id=user_id,
@@ -132,26 +152,25 @@ class VK_bot:
                               f'Какой город ты выберешь ?',
                       user_id=user_id,
                       )
-        city = self.listen_dialog()[1].txte
+        city = self.listen_dialog()[1].text
 
         self.send_msg(message=f'Остался последний пункт надеюсь ты к нему готов.\n'
                               f'Выбери семейное положение.\n'
                               f'Хорошенько подумай прежде чем решить, тут ты не можешь ошибиться.\n'
-                              f'Выберишь однажды не сможешь изменить никогда!!!👻',
+                              f'Выберешь однажды - не сможешь изменить никогда!!!👻',
                       user_id=user_id,
                       )
         self.send_msg(message=f'Шучу, ты всегда сможешь изменить настройки поиска😜',
                       user_id=user_id,
                       keyboard=self.keyboard_marital_normal.get_keyboard()
                       )
-        text = self.listen_dialog()[1].txte
+        text = self.listen_dialog()[1].text
 
-        search_dict = {
+        search_dict: Dict[str, Union[Union[int, Type[int]], Any]] = {
             'sex': sex,
-            'age': age,
+            'age_from': age[0],
+            'age_to': age[1],
             'city': city,
             'marital_status': marital_status_dict[text]
         }
-
         return search_dict
-
