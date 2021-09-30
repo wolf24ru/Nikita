@@ -6,6 +6,7 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.utils import get_random_id
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.longpoll import VkLongPoll, VkEventType
+from vk_api.upload import VkUpload
 
 
 class VK_bot:
@@ -13,6 +14,8 @@ class VK_bot:
         self.token_vk_group = token_vk_group
         self.vk_session = vk_api.VkApi(token=self.token_vk_group)
         self.longpoll = VkBotLongPoll(self.vk_session, group_id)
+        self.user_session = object
+        self.photo_upload = VkUpload(self.vk_session)
 
         service_key = '1d3b026e1d3b026e1d3b026e4f1d437ba211d3b1d3b026e7dd950775b189f26d67f7236'
         self.service_session = vk_api.VkApi(token=service_key)
@@ -52,6 +55,10 @@ class VK_bot:
         self.keyboard_wrong.add_button('Закончить', color=VkKeyboardColor.NEGATIVE)
 
         self.keyboard_new.get_keyboard()
+
+    def user_auoth(self, user_token):
+        self.user_session = vk_api.VkApi(token=user_token)
+
 
     def send_msg(self, message: str, user_id: str, keyboard=None):
         self.vk_session.get_api().messages.send(
@@ -96,10 +103,6 @@ class VK_bot:
         )
         print(city_result)
         return city_result['items'][0]['id']
-
-
-
-
 
     def new_user_search(self, user_id) -> dict:
         marital_status = int
@@ -166,7 +169,7 @@ class VK_bot:
                       )
         text = self.listen_dialog()[1].text
 
-        search_dict: Dict[str, Union[Union[int, Type[int]], Any]] = {
+        search_dict= {
             'sex': sex,
             'age_from': age[0],
             'age_to': age[1],

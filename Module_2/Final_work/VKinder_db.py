@@ -12,7 +12,6 @@ class User_table(Base):
     id_user = sq.Column(sq.Integer, primary_key=True)
     name_user = sq.Column(sq.String(40))
 
-
 class Marital_Status(Base):
     __tablename__ = 'marital_status'
 
@@ -147,7 +146,12 @@ class VKinder_db:
 
     # # 	добавление нового запроса
     def add_request(self, id_user: int, age_from: int, age_to: int, sex: int, city: str, marital_status: int):
-        self.sess.add(User_request(id_user=id_user,
+        request_id = 1
+        query = self.sess.query(User_request).all()
+        if query:
+            request_id += query[-1].request_id
+        self.sess.add(User_request(request_id=request_id,
+                                   id_user=id_user,
                                    age_from=age_from,
                                    age_to=age_to,
                                    sex=sex,
@@ -163,7 +167,12 @@ class VKinder_db:
 
     # 	добавление пользователя из результата запроса
     def add_search(self, search_user_id: int, to_id_user: int):
-        self.sess.add(User_request(search_user_id=search_user_id,
+        id_search = 1
+        query = self.sess.query(Search_users).all()
+        if query:
+            id_search += query[-1].id_search
+        self.sess.add(Search_users(id_search=id_search,
+                                   search_user_id=search_user_id,
                                    to_id_user=to_id_user
                                    ))
         self.sess.commit()
@@ -189,10 +198,16 @@ class VKinder_db:
         self.add_user(user_id, user_name)
         return True
 
+    def check_user_search(self, person_id: int) -> bool:
+        query = self.sess.query(Search_users).where(Search_users.search_user_id == int(person_id)).all()
+        if query:
+            return True
+        return False
+
     # Проверка на наличе запроса от пользователя в БД
     #   Выдача последнего запроса пользователя
     def last_request(self, user_id: int) -> dict:
-        query = self.sess.query(User_request).where(User_request.id_user == int(user_id))
-        if len(query.all()):
-            return query.all()[-1]
-        return query.all()
+        query = self.sess.query(User_request).where(User_request.id_user == int(user_id)).all()
+        if query:
+            return query[-1]
+        return query
