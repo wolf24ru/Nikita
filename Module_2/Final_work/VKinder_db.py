@@ -12,6 +12,7 @@ class User_table(Base):
     id_user = sq.Column(sq.Integer, primary_key=True)
     name_user = sq.Column(sq.String(40))
 
+
 class Marital_Status(Base):
     __tablename__ = 'marital_status'
 
@@ -44,6 +45,7 @@ class Search_users(Base):
     # marital_status = sq.Column(sq.Integer, sq.ForeignKey('marital_status.id_status'))
     sq.PrimaryKeyConstraint(id_search, search_user_id, name='search_users_pk')
 
+
 class VKinder_db:
 
     def __init__(self, user: str, password: str, db: str, port=5432):
@@ -60,91 +62,20 @@ class VKinder_db:
         self.sess = Session()
         Base.metadata.create_all(engine)
 
+        if not self.sess.query(Marital_Status).all():
+            self.sess.add_all([
+                Marital_Status(marital_status='не женат (не замужем)'),
+                Marital_Status(marital_status='встречается'),
+                Marital_Status(marital_status='помолвлен(-а)'),
+                Marital_Status(marital_status='женат (замужем)'),
+                Marital_Status(marital_status='всё сложно'),
+                Marital_Status(marital_status='в активном поиске'),
+                Marital_Status(marital_status='влюблен(-а)'),
+                Marital_Status(marital_status='в гражданском браке'),
+            ])
+            self.sess.commit()
 
-        # engine = create_engine(
-        #     f'postgresql://{user}:{password}@localhost:{port}/{db}')
-        # self.connection = engine.connect()
-
-    # engine = create_engine(
-    # 	'postgresql://vk:12345678@localhost:5432/vkinder_db')
-    # connection = engine.connect()
-
-    # 	создание базы с минимальными значениями
-
-    def new_db(self):
-        """
-        Создания  базы с нуля если она не создана или повреждена.
-        """
-
-        self.sess.add_all([
-            Marital_Status(marital_status='не женат (не замужем)'),
-            Marital_Status(marital_status='встречается'),
-            Marital_Status(marital_status='помолвлен(-а)'),
-            Marital_Status(marital_status='женат (замужем)'),
-            Marital_Status(marital_status='всё сложно'),
-            Marital_Status(marital_status='в активном поиске'),
-            Marital_Status(marital_status='влюблен(-а)'),
-            Marital_Status(marital_status='в гражданском браке'),
-        ])
-        self.sess.commit()
-        # # создание таблицы для пользователей
-        # self.connection.execute('''
-        # CREATE TABLE IF NOT EXISTS User_table(
-        #     id_user integer primary key,
-        #     name_user varchar(40)
-        #     );
-        #     ''')
-
-    #     # таблица 'семейное положение'
-    #     self.connection.execute('''
-    #     CREATE TABLE IF NOT EXISTS Marital_Status(
-    #         id_status serial primary key,
-    #         marital_status varchar
-    #         );
-    #         ''')
-    #
-    #     # таблица 'запросы пользователя'
-    #     self.connection.execute('''
-    #     CREATE TABLE IF NOT EXISTS User_request(
-    #         request_id serial NOT NULL,
-    #         id_user integer references User_table(id_user) ON DELETE CASCADE,
-    #         age integer not null,
-    #         sex integer CHECK ( sex>=0 and sex<=2),
-    #         city varchar not null,
-    #         marital_status integer references Marital_Status(id_status),
-    #         CONSTRAINT User_request_pk PRIMARY KEY (request_id, id_user)
-    #         );
-    #         ''')
-    #
-    #     # таблица 'найденные пользователи для запрашиваемого'
-    #     self.connection.execute('''
-    #     CREATE TABLE IF NOT EXISTS Search_users(
-    #         id_search serial NOT NULL,
-    #         search_user_id integer NOT NULL,
-    #         to_id_user integer references User_table(id_user) ON DELETE CASCADE,
-    #         age integer not null,
-    #         sex integer not null,
-    #         city varchar not null,
-    #         marital_status integer references Marital_Status(id_status),
-    #         CONSTRAINT Search_users_pk PRIMARY KEY (id_search, search_user_id)
-    #         );
-    #         ''')
-    #
-    #     # дефолтное заполнение таблицы 'семейное положение'
-    #     self.connection.execute('''
-    #     INSERT INTO Marital_Status(marital_status)
-    #     VALUES ('не женат (не замужем)'),
-    #     ('встречается'),
-    #     ('помолвлен(-а)'),
-    #     ('женат (замужем)'),
-    #     ('всё сложно'),
-    #     ('в активном поиске'),
-    #     ('влюблен(-а)'),
-    #     ('в гражданском браке');
-    #     '''
-    #                             )
-
-    # # 	добавление нового запроса
+    #   добавление нового запроса
     def add_request(self, id_user: int, age_from: int, age_to: int, sex: int, city: str, marital_status: int):
         request_id = 1
         query = self.sess.query(User_request).all()
